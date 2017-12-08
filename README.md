@@ -28,13 +28,15 @@ It's optional iff you provide `Homey.env.SYSLOG_HOST`, i.e. if you have a file `
 Valid options:
 * `port` : TCP/UDP port for the syslog server. Defaults to `Homey.env.SYSLOG_PORT`, or `514` otherwise.
 * `transport`: either `tcp` or `udp` (the default)
+* `globalHandlers`: when `true`, will hook `uncaughtException` and `unhandledRejection` to log these errors over syslog. Defaults to `Homey.env.SYSLOG_GLOBALHANDLERS === true`.
 
 ## Example
 
 ```
 require('homey-syslog')('192.168.1.123', {
-  port      : 514,
-  transport : 'tcp'
+  port           : 514,
+  transport      : 'tcp'
+  globalHandlers : true,
 });
 ```
 
