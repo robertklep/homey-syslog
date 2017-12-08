@@ -28,21 +28,35 @@ module.exports = (host = Homey.env.SYSLOG_HOST, opts = {}) => {
   });
 
   // Monkeypatch Homey.
-  let log = console.log;
-  console.log = function(...args) {
-    client.log(format(...args));
-    return log.apply(this, arguments);
+  let emit = Homey.SimpleClass.prototype.emit;
+  Homey.SimpleClass.prototype.emit = function(ev, ...args) {
+    if (ev === '__log') {
+      let appCtor  = Homey.app && Homey.app.constructor ? Homey.app.constructor.name : 'App';
+      let thisCtor = this.constructor && this.constructor.name;
+
+      if (thisCtor && thisCtor !== appCtor) {
+        args.unshift(`[${ thisCtor }]`);
+      }
+      if (appCtor) {
+        args.unshift(`[${ appCtor }]`);
+      }
+      client.log(format(...args));
+    }
+    return emit.apply(this, arguments);
   }
 
   // Install global error handlers?
   if (opts.globalHandlers === true) {
     let handler = e => {
-      log.call(console, e);
+      console.log(e);
       client.log(format(e), () => {
         client.close();
         process.exit(1);
-      }, 3000);
+      });
+      setTimeout(() => process.exit(1), 5000).unref();
     }
     process.on('uncaughtException', handler).on('unhandledRejection', handler);
   }
+
+  client.log('homey-syslog activated');
 };
