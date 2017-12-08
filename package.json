@@ -1,0 +1,26 @@
+{
+  "name": "homey-syslog",
+  "version": "1.0.0",
+  "description": "Remote syslog logging for Homey apps",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/robertklep/homey-syslog.git"
+  },
+  "keywords": [
+    "homey",
+    "athom",
+    "syslog",
+    "home-automation",
+    "iot"
+  ],
+  "author": "Robert Klep <robert@klep.name>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robertklep/homey-syslog/issues"
+  },
+  "homepage": "https://github.com/robertklep/homey-syslog#readme",
+  "dependencies": {
+    "syslog-client": "^1.1.1"
+  }
+}
