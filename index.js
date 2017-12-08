@@ -1,4 +1,5 @@
-const syslog = require('syslog-client');
+const syslog     = require('syslog-client');
+const { format } = require('util');
 
 // Check and see if we're running on Homey.
 try {
@@ -23,7 +24,7 @@ module.exports = (host = Homey.env.SYSLOG_HOST, opts = {}) => {
   // Monkeypatch Homey.
   let log = console.log;
   console.log = function(...args) {
-    client.log(args.join(' '));
+    client.log(format(...args));
     return log.apply(this, arguments);
   }
 };

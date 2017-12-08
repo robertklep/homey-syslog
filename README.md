@@ -33,7 +33,18 @@ Valid options:
 
 ```
 require('homey-syslog')('192.168.1.123', {
-    port      : 514,
-    transport : 'tcp'
+  port      : 514,
+  transport : 'tcp'
 });
+```
+
+## DON'T USE IN PRODUCTION CODE
+
+The purpose of this library is to aid during development of Homey apps, it's not intended to be used for apps in production.
+
+An option could be to explicitly set a `DEBUG` environment variable in `env.json`, and only load this library that that variable evaluates to true:
+```
+if (Homey.env.DEBUG === 'true') {
+  require('homey-syslog')(...);
+}
 ```
